@@ -10,7 +10,7 @@ on:
 jobs:
   build-deps-cache-on-main:
     if: github.repository_owner == 'hubverse-org'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     permissions:
       contents: read
     env:
