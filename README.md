@@ -1,6 +1,11 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
+> **Note:** This is a fork of
+> [example-complex-forecast-hub](https://github.com/hubverse-org/example-complex-forecast-hub)
+> used as a test fixture for dashboard pipeline development. See
+> [TESTING.md](TESTING.md) for details.
+
 # Example Complex Forecast Hub
 
 **This repository is under construction.**
