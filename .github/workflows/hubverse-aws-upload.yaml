@@ -16,7 +16,9 @@ permissions:
 
 jobs:
   upload:
-    runs-on: ubuntu-latest
+    # Don't run on forked repositories
+    if: github.event.repository.fork != true
+    runs-on: ubuntu-22.04
 
     steps:
     - name: Checkout
@@ -44,6 +46,8 @@ jobs:
     - name: Install rclone
       if: env.CLOUD_ENABLED == 'true'
       run: |
+        # debian version of rclone is outdated and will result in config name errors
+        # https://github.com/rclone/rclone/issues/6060
         curl https://rclone.org/install.sh | sudo bash
         rclone version
 
