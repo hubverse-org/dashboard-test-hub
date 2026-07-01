@@ -14,11 +14,11 @@
     "file_format": ["csv"],
     "timezone": "US/Eastern",
     "cloud": {
-        "enabled": false,
+        "enabled": true,
         "host": {
           "name": "aws",
           "storage_service": "s3",
-          "storage_location": "example-complex-forecast-hub"
+          "storage_location": "dashboard-test-hub"
         }
     }
 }
