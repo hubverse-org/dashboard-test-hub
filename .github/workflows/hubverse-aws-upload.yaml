@@ -16,11 +16,13 @@ permissions:
 
 jobs:
   upload:
-    runs-on: ubuntu-latest
+    # Don't run on forked repositories
+    if: github.event.repository.fork != true
+    runs-on: ubuntu-22.04
 
     steps:
     - name: Checkout
-      uses: actions/checkout@v4
+      uses: actions/checkout@v7
 
     - name: Get hub cloud config
       # save cloud-related fields from admin config as environment variables
@@ -36,7 +38,7 @@ jobs:
     - name: Configure AWS credentials
       # request credentials to assume the hub's AWS role via OpenID Connect
       if: env.CLOUD_ENABLED == 'true'
-      uses: aws-actions/configure-aws-credentials@v4
+      uses: aws-actions/configure-aws-credentials@v6
       with:
         role-to-assume: arn:aws:iam::${{ env.AWS_ACCOUNT }}:role/${{ env.CLOUD_STORAGE_LOCATION }}
         aws-region: us-east-1
@@ -44,6 +46,12 @@ jobs:
     - name: Install rclone
       if: env.CLOUD_ENABLED == 'true'
       run: |
+        # Install the latest rclone from the official script rather than the apt
+        # package: the Debian/Ubuntu version is too old to parse the inline
+        # connection-string remotes (":s3,provider=AWS,env_auth:...") used in the
+        # sync step below, and instead fails with "config name contains invalid
+        # characters".
+        # https://github.com/rclone/rclone/issues/6060
         curl https://rclone.org/install.sh | sudo bash
         rclone version
 
