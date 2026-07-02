@@ -46,7 +46,11 @@ jobs:
     - name: Install rclone
       if: env.CLOUD_ENABLED == 'true'
       run: |
-        # debian version of rclone is outdated and will result in config name errors
+        # Install the latest rclone from the official script rather than the apt
+        # package: the Debian/Ubuntu version is too old to parse the inline
+        # connection-string remotes (":s3,provider=AWS,env_auth:...") used in the
+        # sync step below, and instead fails with "config name contains invalid
+        # characters".
         # https://github.com/rclone/rclone/issues/6060
         curl https://rclone.org/install.sh | sudo bash
         rclone version
