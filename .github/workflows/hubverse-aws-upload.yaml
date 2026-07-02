@@ -16,8 +16,11 @@ permissions:
 
 jobs:
   upload:
-    # Don't run on forked repositories
-    if: github.event.repository.fork != true
+    # NOTE: canonical hubverse-aws-upload guards this job with
+    #   if: github.event.repository.fork != true
+    # to stop forks of a hub from uploading. This repo is itself a fork used as
+    # the hubverse test hub, so we intentionally drop that guard here so pushes
+    # to main actually run the upload. Do not copy this deviation to real hubs.
     runs-on: ubuntu-22.04
 
     steps:
